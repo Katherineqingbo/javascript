@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 800px;
+            height: 600px;
+            border: 1px solid #00f;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+
+    </div>
+</body>
+<script>
+    // 产生10个盒子
+    // 颜色随机
+    // 位置随机
+    // 隔段时间出现10个
+    function Box(parent,options){
+        var options = options || {}
+        this.width = options.width || 25
+        this.height = options.height || 25
+
+        this.dom = document.createElement("div")
+        parent.appendChild(this.dom)
+        this.parent = parent
+
+        this.init()
+    }
+    Box.prototype = {
+        constuctor: Box,
+        init: function(){
+            var oDiv = this.dom
+            oDiv.style.backgroundColor = this.bg()
+            oDiv.style.position = 'absolute'
+            oDiv.style.width = this.width + 'px'
+            oDiv.style.height = this.height + 'px'
+            oDiv.style.left = this.x() + 'px'
+            oDiv.style.top = this.y() + 'px'
+        },
+        x: function(){
+            return Math.floor(Math.random()*(this.width - (800-this.width)) + (800-this.width)) || 0
+        },
+        y: function(){
+            return Math.floor(Math.random()*(this.height - (600-this.height)) + (600-this.height)) || 0
+        },
+        bg: function(){
+            return '#'+(Math.random()*0xffffff<<0).toString(16)
+        }
+    }
+
+    var _parent = document.getElementById("box")
+    function boxObj(){
+        for (var i=0; i<10; i++) {
+            new Box(_parent)
+        }
+    }
+    boxObj()
+    
+    setInterval(function(){
+        _parent.innerHTML= ""
+        boxObj()
+    },1000)
+</script>
+</html>
